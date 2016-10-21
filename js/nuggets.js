@@ -1,3 +1,38 @@
+/**
+ * forEach implementation for Objects/NodeLists/Arrays, automatic type loops and context options
+ *
+ * @private
+ * @author Todd Motto
+ * @link https://github.com/toddmotto/foreach
+ * @param {Array|Object|NodeList} collection - Collection of items to iterate, could be an Array, Object or NodeList
+ * @callback requestCallback      callback   - Callback function for each iteration.
+ * @param {Array|Object|NodeList} scope=null - Object/NodeList/Array that forEach is iterating over, to use as the this value when executing callback.
+ * @returns {}
+ */
+var forEach = function (collection, callback, scope) {
+	if (Object.prototype.toString.call(collection) === "[object Object]") {
+		for (var prop in collection) {
+			if (Object.prototype.hasOwnProperty.call(collection, prop)) {
+				callback.call(scope, collection[prop], prop, collection);
+			}
+		}
+	} else {
+		for (var i = 0, len = collection.length; i < len; i++) {
+			callback.call(scope, collection[i], i, collection);
+		}
+	}
+};
+
+/**
+Drop in replace functions for setTimeout() & setInterval() that
+make use of requestAnimationFrame() for performance where available
+http://www.joelambert.co.uk
+
+Copyright 2011, Joe Lambert.
+Free to use under the MIT license.
+http://www.opensource.org/licenses/mit-license.php
+*/
+
 // requestAnimationFrame() shim by Paul Irish
 // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
 window.requestAnimFrame = (function () {
